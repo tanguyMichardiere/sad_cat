@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dismiss">Fermer</string>
+    <string name="about">À propos</string>
+    <string name="uploading">Envoi…</string>
+    <string name="upload_successful">Envoyé avec succès</string>
+    <string name="compress_error">Erreur de compression</string>
+    <string name="decode_error">Erreur de décodage</string>
+    <string name="upload_error">Erreur d\'envoi</string>
+    <string name="settings">Paramètres</string>
+    <string name="theme">Thème</string>
+    <string name="system">Système</string>
+    <string name="dark">Sombre</string>
+    <string name="light">Clair</string>
+    <string name="order">Tri</string>
+    <string name="oldest_first">Plus ancien</string>
+    <string name="newest_first">Plus récent</string>
+</resources>

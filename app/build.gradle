@@ -1,0 +1,110 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.firebase.firebase-perf'
+}
+
+def credentialsFile = rootProject.file("credentials.properties")
+def credentialsProperties = new Properties()
+try {
+    credentialsProperties.load(new FileInputStream(credentialsFile))
+} catch (Exception ignored) {
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "com.tanguymichardiere.sad_cat_project"
+        minSdk 21
+        targetSdk 31
+        versionCode 17
+        versionName "@string/versionName"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "userType"
+    productFlavors {
+        create("user") {
+            dimension "userType"
+            buildConfigField "String", "EMAIL", "null"
+            buildConfigField "String", "PASSWORD", "null"
+        }
+
+        create("admin") {
+            dimension "userType"
+            buildConfigField "String", "EMAIL", credentialsProperties.getOrDefault("email", "null")
+            buildConfigField "String", "PASSWORD", credentialsProperties.getOrDefault("password", "null")
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+        useIR = true
+    }
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+        exclude "DebugProbesKt.bin"
+    }
+}
+
+dependencies {
+    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+    implementation 'androidx.activity:activity-compose:1.3.1'
+    implementation platform('com.google.firebase:firebase-bom:28.3.0')
+    implementation 'com.google.firebase:firebase-storage-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-perf-ktx'
+    implementation 'com.google.firebase:firebase-appcheck-safetynet:16.0.0-beta02'
+    implementation 'com.google.firebase:firebase-appcheck-debug:16.0.0-beta02'
+    implementation 'io.coil-kt:coil-compose:1.3.2'
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
+    implementation 'com.google.accompanist:accompanist-systemuicontroller:0.16.0'
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.5.1-native-mt'
+    implementation "androidx.navigation:navigation-compose:2.4.0-alpha07"
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+}
